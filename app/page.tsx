@@ -32,57 +32,6 @@ interface quantity {
 }
 
 export default function Home() {
-  // const items = [
-  //   {
-  //     name: "apple",
-  //     quantity: 2,
-  //   },
-  //   {
-  //     name: "banana",
-  //     quantity: 4,
-  //   },
-  //   {
-  //     name: "orange",
-  //     quantity: 3,
-  //   },
-  //   {
-  //     name: "kiwi",
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: "onions",
-  //     quantity: 5,
-  //   },
-  //   {
-  //     name: "watermelon",
-  //     quantity: 2,
-  //   },
-  //   {
-  //     name: "cabbage",
-  //     quantity: 3,
-  //   },
-  //   {
-  //     name: "lettuce",
-  //     quantity: 1,
-  //   },
-  //   {
-  //     name: "garlic",
-  //     quantity: 4,
-  //   },
-  //   {
-  //     name: "beef",
-  //     quantity: 2,
-  //   },
-  //   {
-  //     name: "tofu",
-  //     quantity: 5,
-  //   },
-  //   {
-  //     name: "spinach",
-  //     quantity: 3,
-  //   },
-  // ];
-
   const [pantry, setPantry] = useState<PantryItem[]>([]);
   const [open, setOpen] = useState(false);
   const [inputItem, setInputItem] = useState("");
@@ -116,8 +65,9 @@ export default function Home() {
       } else {
         await setDoc(docRef, { quantity: 1 });
       }
+      await setInputItem('')
     }
-    setOpen(false)
+    setOpen(false);
     await updatePantry();
   };
 
@@ -163,7 +113,7 @@ export default function Home() {
       height="100vh"
       display={"flex"}
       flexDirection={"column"}
-      justifyContent={"center"}
+      justifyContent={"start"}
       alignItems={"center"}
       p={4}
     >
@@ -174,7 +124,6 @@ export default function Home() {
           left="50%"
           width={400}
           bgcolor="white"
-          border="2px solid black"
           boxShadow={24}
           p={4}
           display="flex"
@@ -195,18 +144,17 @@ export default function Home() {
           {/* <Typography variant="h6">Add Item</Typography> */}
         </Box>
       </Modal>
-      <Box alignSelf={"center"} fontSize={24} p={2}>
+      <Box alignSelf={"center"} fontSize={24} p={2} border="solid black">
         Pantry Tracker
       </Box>
       <Stack
         width="100vw"
-        maxHeight="500px"
+        maxHeight="100vh"
         spacing={2}
         padding={4}
         m={4}
         overflow={"auto"}
       >
-        {/* {items.map((item, index) => ( */}
         {pantry.map((item, index) => (
           <Box key={index} display={"flex"} gap={2}>
             <Box
@@ -215,11 +163,9 @@ export default function Home() {
               display={"flex"}
               justifyContent="space-evenly"
               alignItems="center"
-              // border="solid black"
               bgcolor={"#dfcf7b"}
             >
               <Box
-              // border="solid black"
               >
                 {item.name} {item.quantity}
               </Box>
@@ -244,7 +190,6 @@ export default function Home() {
       </Stack>
       <Box
         display={"flex"}
-        // border={"dotted black"}
         width="100vw"
         paddingLeft={4}
         paddingRight={4}

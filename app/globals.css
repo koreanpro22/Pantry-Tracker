@@ -1,3 +1,13 @@
+:root {
+  --color-cream: #FEFAE0;
+  --color-peach: #FAEDCD;
+  --color-light-green: #E9EDC9;
+  --color-tan: rgb(212, 163, 115);
+  --color-pale-green: rgb(204, 220, 180);
+  --color-dark-gray: #696969;
+  --font-virgil: 'Virgil'
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -7,24 +17,34 @@
 html,
 body {
   max-width: 100vw;
+  height: 100vh;
   overflow-x: hidden;
+  /* background-color: var(--color-tan); */
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  font-family: var(--font-virgil);
   background: linear-gradient(
       to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
+      var(--color-tan)
     )
-    rgb(var(--background-start-rgb));
+    var(--color-peach);
 }
 
 a {
   color: inherit;
   text-decoration: none;
 }
+/*
+FEFAE0
+FAEDCD
+E9EDC9
+D4A373
+CCD5AE
+696969
 
+*/
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

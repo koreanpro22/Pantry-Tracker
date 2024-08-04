@@ -1,44 +1,43 @@
-// "use client";
-
-// import { Box, Stack, TextField, Button, Modal, Typography } from "@mui/material";
-// import { useState, useEffect, ChangeEvent } from "react";
-// import { firestore } from "@/firebase";
-// import {
-//   collection, doc, getDoc, getDocs, query,
-// } from "firebase/firestore";
-
-// export default function Home() {
-//   return (
-//     <Box >
-//       <Typography variant="h2">
-//         Pantry Tracker
-//       </Typography>
-//     </Box>
-//   );
-// }
 "use client";
 
-import { Box, TextField } from "@mui/material";
-import PantryList from "./components/PantryList";
-import AddItemButton from "./components/AddItemButton";
-import shelvingImage from "../assets/pantry-shelving.jpg";
+import { Box } from "@mui/material";
+import PantryList from "../components/PantryList";
+import AddItemButton from "../components/AddItemButton";
+import shelvingImage from "../../assets/pantry-shelving.jpg";
 import { firestore } from "@/firebase";
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
-import { PantryItem } from "./lib/types";
-import { getPantry } from "./lib/actions";
+import { PantryItem } from "../lib/types";
+import { getPantry } from "../lib/actions";
 import { useState, useEffect } from "react";
+
+interface quantity {
+  quantity?: number;
+}
+
+// const getPantry = async () => {
+//   const snapshot = query(collection(firestore, "pantry"));
+//   const docs = await getDocs(snapshot);
+//   const pantryList: PantryItem[] = [];
+
+//   docs.forEach((doc) => {
+//     pantryList.push({
+//       name: doc.id,
+//       ...(doc.data() as quantity),
+//     });
+//   });
+//   return pantryList
+// };
 
 export default function Home() {
   const [pantry, setPantry] = useState<PantryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const loadPantry = async () => {
-    console.log("hitting load pantry");
+    console.log('hitting load pantry')
     try {
       const pantryItems = await getPantry();
-      console.log("in try block ", pantryItems);
+      console.log('in try block ', pantryItems)
       setPantry(pantryItems);
     } catch (err) {
       setError(err as Error);
@@ -53,7 +52,7 @@ export default function Home() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  console.log(pantry);
+  console.log(pantry)
   return (
     <Box
       width="100vw"
@@ -81,15 +80,8 @@ export default function Home() {
         <Box alignSelf={"center"} fontSize={36} paddingTop={2}>
           Pantry
         </Box>
-        <TextField
-          label="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <PantryList pantryItems={pantry} reloadPantry={loadPantry} searchQuery={searchQuery}/>
-        <AddItemButton reloadPantry={loadPantry} />
+        <PantryList pantryItems={pantry} reloadPantry={loadPantry}/>
+        <AddItemButton reloadPantry={loadPantry}/>
       </Box>
     </Box>
   );

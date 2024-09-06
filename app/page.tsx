@@ -22,6 +22,7 @@ import { Box, TextField } from "@mui/material";
 import PantryList from "./components/PantryList";
 import AddItemButton from "./components/AddItemButton";
 import shelvingImage from "../assets/pantry-shelving.jpg";
+import kirbyImage from "../assets/kirby-background.jpg";
 import { firestore } from "@/firebase";
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { PantryItem } from "./lib/types";
@@ -62,6 +63,12 @@ export default function Home() {
       flexDirection={"column"}
       justifyContent={"start"}
       alignItems={"center"}
+      sx={{
+        backgroundImage: `url(${kirbyImage.src})`,
+        backgroundPositionY: "1",
+        backgroundRepeat: "repeat",
+        maxWidth: "100%",
+      }}
     >
       <Box
         display={"flex"}
@@ -70,12 +77,12 @@ export default function Home() {
         alignItems={"center"}
         maxWidth={"600px"}
         height="100vh"
-        sx={{
-          backgroundImage: `url(${shelvingImage.src})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundPositionY: "1",
-        }}
+        // sx={{
+        //   backgroundImage: `url(${kirbyImage.src})`,
+        //   backgroundPositionY: "1",
+        //   backgroundRepeat: "repeat",
+        //   maxWidth: "100%",
+        // }}
         p={4}
       >
         <Box alignSelf={"center"} fontSize={36} paddingTop={2}>
@@ -88,7 +95,11 @@ export default function Home() {
           fullWidth
           margin="normal"
         />
-        <PantryList pantryItems={pantry} reloadPantry={loadPantry} searchQuery={searchQuery}/>
+        <PantryList
+          pantryItems={pantry}
+          reloadPantry={loadPantry}
+          searchQuery={searchQuery}
+        />
         <AddItemButton reloadPantry={loadPantry} />
       </Box>
     </Box>

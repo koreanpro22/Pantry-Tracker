@@ -24,4 +24,4 @@ const auth = getAuth(app);
 // const analytics = getAnalytics(app);
 const firestore = getFirestore(app);
 
-export { firestore };
+export { auth, firestore };

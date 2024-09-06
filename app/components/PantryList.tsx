@@ -33,7 +33,6 @@ export default function PantryList({ pantryItems, reloadPantry, searchQuery }: P
       overflow={"auto"}
     >
       {filteredItems.map((item: PantryItem, index: number) => {
-
         console.log(item)
         return item ? (
           <Box
@@ -55,11 +54,9 @@ export default function PantryList({ pantryItems, reloadPantry, searchQuery }: P
               width="100%"
               minHeight={"50px"}
               display={"flex"}
-              // justifyContent="space-evenly"
               justifyContent="start"
               alignItems="center"
               paddingLeft={4}
-              // bgcolor={"rgba(254, 250, 224, .4)"}
             >
               <Box>{item.name}</Box>
             </Box>

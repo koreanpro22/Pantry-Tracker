@@ -9,13 +9,13 @@ import { getAuth, connectAuthEmulator, signInWithEmailAndPassword } from "fireba
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD_9QQqWPqz0P7zdrxnBGLbsjosSGi6mwY",
-  authDomain: "pantry-tracker-e965b.firebaseapp.com",
-  projectId: "pantry-tracker-e965b",
-  storageBucket: "pantry-tracker-e965b.appspot.com",
-  messagingSenderId: "474264129144",
-  appId: "1:474264129144:web:19c7eec620baf20143e78d",
-  measurementId: "G-8V27HN5WJW"
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

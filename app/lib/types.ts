@@ -1,16 +1,16 @@
 export interface PantryItem {
   name: string;
-  quantity?: number;
+  quantity?: string;
 }
 
 export interface quantity {
-  quantity?: number;
+  quantity?: string;
 }
 
 export interface PantryItemProps {
   item: {
     name: string;
-    quantity?: number;
+    quantity?: string;
   };
   pantryItems: PantryItem[];
   index: number;

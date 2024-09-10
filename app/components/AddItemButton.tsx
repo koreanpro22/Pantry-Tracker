@@ -21,6 +21,11 @@ export default function AddItemButton({reloadPantry} : any) {
       <AddItemModal openAdd={openAdd} handleCloseAdd={handleCloseAdd} />
 
       <Button
+        sx={{
+            bgcolor: "rgba(254, 250, 224, 1)",
+            color: "black",
+            border: "1px solid black"
+        }}
         variant="contained"
         startIcon={<AddIcon />}
         onClick={() => handleOpenAdd()}

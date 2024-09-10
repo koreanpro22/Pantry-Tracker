@@ -1,51 +1,37 @@
-// "use client";
-
-// import { Box, Stack, TextField, Button, Modal, Typography } from "@mui/material";
-// import { useState, useEffect, ChangeEvent } from "react";
-// import { firestore } from "@/firebase";
-// import {
-//   collection, doc, getDoc, getDocs, query,
-// } from "firebase/firestore";
-
-// export default function Home() {
-//   return (
-//     <Box >
-//       <Typography variant="h2">
-//         Pantry Tracker
-//       </Typography>
-//     </Box>
-//   );
-// }
 "use client";
 
 import { Box, TextField } from "@mui/material";
 import PantryList from "./components/PantryList";
 import AddItemButton from "./components/AddItemButton";
-import shelvingImage from "../assets/pantry-shelving.jpg";
 import kirbyImage from "../assets/kirby-background.jpg";
-import { firestore } from "@/firebase";
-import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { PantryItem } from "./lib/types";
 import { getPantry } from "./lib/actions";
 import { useState, useEffect } from "react";
+import DeleteAllItemsButton from "./components/DeleteAllItemsButton";
 
 export default function Home() {
   const [pantry, setPantry] = useState<PantryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeView, setActiveView] = useState("pantry");
 
   const loadPantry = async () => {
-    console.log("hitting load pantry");
     try {
       const pantryItems = await getPantry();
-      console.log("in try block ", pantryItems);
       setPantry(pantryItems);
     } catch (err) {
       setError(err as Error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePantryClick = () => {
+    setActiveView("pantry");
+  };
+  const handleRecipesClick = () => {
+    setActiveView("recipes");
   };
 
   useEffect(() => {
@@ -70,38 +56,85 @@ export default function Home() {
         maxWidth: "100%",
       }}
     >
-      <Box
-        display={"flex"}
-        flexDirection={"column"}
-        justifyContent={"start"}
-        alignItems={"center"}
-        maxWidth={"600px"}
-        height="100vh"
-        // sx={{
-        //   backgroundImage: `url(${kirbyImage.src})`,
-        //   backgroundPositionY: "1",
-        //   backgroundRepeat: "repeat",
-        //   maxWidth: "100%",
-        // }}
-        p={4}
-      >
-        <Box alignSelf={"center"} fontSize={36} paddingTop={2}>
-          Pantry
+      {activeView === "pantry" && (
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"start"}
+          alignItems={"center"}
+          maxWidth={"600px"}
+          height="100vh"
+          p={4}
+        >
+          <Box
+            width="100vw"
+            display={"flex"}
+            justifyContent={"space-evenly"}
+            paddingTop={2}
+          >
+            <Box fontSize={"30px"}>Pantry</Box>
+
+            <Box fontSize={"30px"} onClick={handleRecipesClick}>
+              Recipes
+            </Box>
+          </Box>
+          <TextField
+            label="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            // fullWidth
+
+            margin="normal"
+          />
+          <PantryList
+            pantryItems={pantry}
+            reloadPantry={loadPantry}
+            searchQuery={searchQuery}
+          />
+          <Box display={"flex"} width="100vw" justifyContent={"space-evenly"}>
+            <AddItemButton reloadPantry={loadPantry} />
+            <DeleteAllItemsButton reloadPantry={loadPantry} />
+          </Box>
         </Box>
-        <TextField
-          label="Search"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <PantryList
-          pantryItems={pantry}
-          reloadPantry={loadPantry}
-          searchQuery={searchQuery}
-        />
-        <AddItemButton reloadPantry={loadPantry} />
-      </Box>
+      )}
+      {activeView === "recipes" && (
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          justifyContent={"start"}
+          alignItems={"center"}
+          maxWidth={"600px"}
+          height="100vh"
+          p={4}
+        >
+          <Box
+            width="100vw"
+            display={"flex"}
+            justifyContent={"space-evenly"}
+            paddingTop={2}
+          >
+            <Box fontSize={"30px"} onClick={handlePantryClick}>
+              Pantry
+            </Box>
+
+            <Box fontSize={"30px"}>Recipes</Box>
+          </Box>
+          <TextField
+            label="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            // fullWidth
+
+            margin="normal"
+          />
+          
+          {/* Recipe list component */}
+
+
+          {/* Add Recipe Button */}
+
+        </Box>
+      )}
     </Box>
   );
 }

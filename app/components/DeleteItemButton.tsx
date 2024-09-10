@@ -21,7 +21,7 @@ export default function DeleteItemButton({ item, pantryItems, index, reloadPantr
         reloadPantry={reloadPantry}
       />
       <Box
-        border={"solid"}
+        border={"solid 1px"}
         display={"flex"}
         justifyContent={"center"}
         alignSelf={"center"}

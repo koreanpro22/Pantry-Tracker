@@ -21,7 +21,7 @@ export default function EditItemButton({ item, pantryItems, index, reloadPantry 
         reloadPantry={reloadPantry}
       />
       <Box
-        border={"solid"}
+        border={"solid 1px"}
         display={"flex"}
         justifyContent={"center"}
         alignSelf={"center"}

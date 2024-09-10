@@ -1,11 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Stack, Tooltip, Checkbox } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Tooltip,
+  Checkbox,
+  Button,
+  TextField,
+} from "@mui/material";
 import { PantryItem } from "../lib/types";
 import { green } from "@mui/material/colors";
 import EditItemButton from "./EditItemButton";
 import DeleteItemButton from "./DeleteItemButton";
+import EditIcon from "@mui/icons-material/Edit";
+import { editItem } from "../lib/actions";
 
 type PantryListProps = {
   pantryItems: PantryItem[];
@@ -13,19 +22,27 @@ type PantryListProps = {
   searchQuery: string;
 };
 
-export default function PantryList({ pantryItems, reloadPantry, searchQuery }: PantryListProps) {
-  console.log(pantryItems, reloadPantry);
+export default function PantryList({
+  pantryItems,
+  reloadPantry,
+  searchQuery,
+}: PantryListProps) {
   // const [items, setItems] = useState(pantryItems);
   const filteredItems = pantryItems.filter((item) => {
-    return item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  })
+    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  //Use the index of the item currently being editted
+  const [currEditIndex, setCurrEditIndex] = useState<number | null>(null);
+  const [editQuantity, setEditQuantity] = useState<string>("");
 
   return (
     <Stack
       sx={{
         backgroundColor: "rgba(212, 163, 115, .2)",
       }}
-      width="500px"
+      width="80%"
+      minWidth={"350px"}
       maxHeight="100vh"
       spacing={2}
       padding={4}
@@ -33,23 +50,14 @@ export default function PantryList({ pantryItems, reloadPantry, searchQuery }: P
       overflow={"auto"}
     >
       {filteredItems.map((item: PantryItem, index: number) => {
-        console.log(item)
-        return item ? (
+        return (
           <Box
             key={index}
             display={"flex"}
             gap={2}
             bgcolor={"rgba(254, 250, 224, 1)"}
+            p={1}
           >
-            <Checkbox
-              color="success"
-              sx={{
-                color: "",
-                "&.Mui-checked": {
-                  color: green[300],
-                },
-              }}
-            />
             <Box
               width="100%"
               minHeight={"50px"}
@@ -60,21 +68,62 @@ export default function PantryList({ pantryItems, reloadPantry, searchQuery }: P
             >
               <Box>{item.name}</Box>
             </Box>
-            <Box
-              display={"flex"}
-              height={24}
-              justifyContent={"center"}
-              alignSelf={"center"}
-              alignItems={"center"}
-              p={2}
-            >
-              {item.quantity}
-            </Box>
-            <EditItemButton item={item} pantryItems={pantryItems} index={index} reloadPantry={reloadPantry}/>
-            <DeleteItemButton item={item} pantryItems={pantryItems} index={index} reloadPantry={reloadPantry}/>
+            {index === currEditIndex ? (
+              <Box
+                display={"flex"}
+                height={24}
+                justifyContent={"center"}
+                alignSelf={"center"}
+                alignItems={"center"}
+                p={2}
+              >
+                <input type="text" size={3} value={editQuantity} />
+                <Button
+                  onClick={async () => {
+                    await editItem(item.name, editQuantity);
+                    reloadPantry();
+                  }}
+                >
+                  Save
+                </Button>
+              </Box>
+            ) : (
+              <Box
+                display={"flex"}
+                height={24}
+                justifyContent={"center"}
+                alignSelf={"center"}
+                alignItems={"center"}
+                p={2}
+              >
+                {item.quantity}
+              </Box>
+            )}
+            {index !== currEditIndex && (
+              <Box
+                border={"solid 1px"}
+                display={"flex"}
+                justifyContent={"center"}
+                alignSelf={"center"}
+                borderRadius={2}
+                p={1}
+                onClick={() => {
+                  setEditQuantity(item.quantity);
+                  setCurrEditIndex(index);
+                }}
+              >
+                <Tooltip title="Edit">
+                  <EditIcon sx={{ ":hover": { cursor: "pointer" } }} />
+                </Tooltip>
+              </Box>
+            )}
+            <DeleteItemButton
+              item={item}
+              pantryItems={pantryItems}
+              index={index}
+              reloadPantry={reloadPantry}
+            />
           </Box>
-        ) : (
-          <Box> Nothing </Box>
         );
       })}
     </Stack>

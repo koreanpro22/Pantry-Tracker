@@ -77,11 +77,12 @@ export default function PantryList({
                 alignItems={"center"}
                 p={2}
               >
-                <input type="text" size={3} value={editQuantity} />
+                <input type="text" size={3} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)}/>
                 <Button
                   onClick={async () => {
                     await editItem(item.name, editQuantity);
-                    reloadPantry();
+                    await reloadPantry();
+                    setCurrEditIndex(null);
                   }}
                 >
                   Save

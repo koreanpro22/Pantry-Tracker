@@ -27,10 +27,13 @@ export default function Home() {
     }
   };
 
-  const handlePantryClick = () => {
+  const handlePantryClick = async () => {
+    await setSearchQuery("")
     setActiveView("pantry");
+
   };
-  const handleRecipesClick = () => {
+  const handleRecipesClick = async () => {
+    await setSearchQuery("")
     setActiveView("recipes");
   };
 
@@ -127,7 +130,7 @@ export default function Home() {
 
             margin="normal"
           />
-          
+
           {/* Recipe list component */}
 
 

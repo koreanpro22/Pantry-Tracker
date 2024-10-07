@@ -86,7 +86,6 @@ export default function Home() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             // fullWidth
-
             margin="normal"
           />
           <PantryList

@@ -13,11 +13,11 @@ type EditItemModalProps = {
 };
 
 export default function EditItemModal({ item, openEdit, handleCloseEdit, pantryItems, reloadPantry }: EditItemModalProps) {
-  const [quantity, setQuantity] = useState<number>(item.quantity || 1);
+  const [quantity, setQuantity] = useState<string>(item.quantity || "");
 
 
   const handleQuantityChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setQuantity(Number(e.target.value));
+    setQuantity(e.target.value);
   };
 
   const handleClick = async () => {

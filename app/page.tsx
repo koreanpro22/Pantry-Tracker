@@ -47,7 +47,7 @@ export default function Home() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  console.log(pantry);
+  // console.log(pantry);
   return (
     <Box
       width="100vw"

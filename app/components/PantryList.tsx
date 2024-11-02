@@ -39,6 +39,7 @@ export default function PantryList({
   const [currEditIndex, setCurrEditIndex] = useState<number | null>(null);
   const [editQuantity, setEditQuantity] = useState<string>("");
   console.log('pantryItems', pantryItems)
+  console.log('filteredItems', filteredItems)
   return (
     <Stack
       sx={{

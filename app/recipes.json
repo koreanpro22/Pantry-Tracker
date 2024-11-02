@@ -1,0 +1,17 @@
+[
+  {
+    "name": "smootie",
+    "ingredients": [
+      { "name": "apple", "quantity": "2 units" },
+      { "name": "banana", "quantity": "2 units" },
+      { "name": "strawberry", "quantity": "2 units" },
+      { "name": "ice", "quantity": "2 units" }
+    ],
+    "time": "10 minutes",
+    "instructions": [
+      "Put apples, bananas, strawberries and ice in the blender",
+      "blend for 7 minutes",
+      "Enjoy your fruit smootie!"
+    ]
+  }
+]

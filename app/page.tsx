@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import PantryList from "./components/PantryList";
 import AddItemButton from "./components/AddItemButton";
 import kirbyImage from "../assets/kirby-background.jpg";
@@ -36,6 +36,10 @@ export default function Home() {
     await setSearchQuery("")
     setActiveView("recipes");
   };
+
+  const handleCreateRecipes = async () => {
+    alert('hitting create recipes')
+  }
 
   useEffect(() => {
     loadPantry();
@@ -134,7 +138,7 @@ export default function Home() {
 
 
           {/* Add Recipe Button */}
-
+          <Button onClick={handleCreateRecipes}>Create new recipes</Button>
         </Box>
       )}
     </Box>

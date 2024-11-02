@@ -8,7 +8,7 @@ import {
   query,
   getDocs,
 } from "firebase/firestore";
-import { PantryItem, quantity } from "./types";
+import { PantryItem, PantryField } from "./types";
 
 async function getRef(name: string) {
   const docRef = doc(collection(firestore, "pantry"), name);
@@ -21,8 +21,8 @@ async function getRef(name: string) {
 export async function addItem(name: string, quantity: string) {
   const { ref } = await getRef(name);
   console.log("hitting add", ref);
-
-  await setDoc(ref, { quantity });
+  const date = Date.now()
+  await setDoc(ref, { quantity, createdAt: date });
 }
 
 //Delete single item action
@@ -78,8 +78,34 @@ export async function getPantry() {
   docs.forEach((doc: any) => {
     pantryList.push({
       name: doc.id,
-      ...(doc.data() as quantity),
+      ...(doc.data() as PantryField),
     });
   });
   return pantryList;
+}
+
+export async function getRecipeFolders() {
+
+}
+export async function createRecipeFolder() {
+
+}
+export async function editRecipeFolder() {
+
+}
+
+export async function getRecipes() {
+
+}
+export async function createRecipe() {
+  
+}
+export async function editRecipe() {
+
+}
+export async function deleteRecipe() {
+
+}
+export async function deleteAllRecipes() {
+
 }

@@ -28,14 +28,17 @@ export default function PantryList({
   searchQuery,
 }: PantryListProps) {
   // const [items, setItems] = useState(pantryItems);
-  const filteredItems = pantryItems.filter((item) => {
-    return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  // const filteredItems = pantryItems.filter((item) => {
+  //   return item.name.toLowerCase().includes(searchQuery.toLowerCase());
+  // });
+  const filteredItems = pantryItems.sort((a, b) => {
+    return a.createdAt - b.createdAt
   });
 
   //Use the index of the item currently being editted
   const [currEditIndex, setCurrEditIndex] = useState<number | null>(null);
   const [editQuantity, setEditQuantity] = useState<string>("");
-
+  console.log('pantryItems', pantryItems)
   return (
     <Stack
       sx={{

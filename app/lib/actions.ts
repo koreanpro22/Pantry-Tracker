@@ -34,7 +34,7 @@ export async function addItem(name: string, quantity: string) {
 
 //Delete single item action
 export async function deleteItem(name: string) {
-  const { ref } = await getRef(name);
+  const { ref } = await getPantryRef(name);
 
   console.log("hitting delete item", ref);
   await deleteDoc(ref);

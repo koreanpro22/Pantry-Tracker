@@ -10,7 +10,6 @@ import { useState, useEffect, ChangeEvent } from "react";
 import DeleteAllItemsButton from "./components/DeleteAllItemsButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-
 export default function Home() {
   const [pantry, setPantry] = useState<PantryItem[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -179,11 +178,9 @@ export default function Home() {
               <Stack gap={1}>
                 {filteredFolders.map((folder, i) => {
                   return (
-                    <Box>
-                    <Button key={i} variant="contained">
-                      {folder.name}
-                    </Button>
-                    <DeleteIcon />
+                    <Box key={i}>
+                      <Button variant="contained">{folder.name}</Button>
+                      <DeleteIcon />
                     </Box>
                   );
                 })}

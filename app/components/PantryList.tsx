@@ -45,14 +45,17 @@ export default function PantryList({
     <Stack
       sx={{
         backgroundColor: "rgba(212, 163, 115, .2)",
+        overflow: "auto",
+        scrollbarColor: "rgb(212, 163, 115) #FAEDCD",
       }}
       width="80%"
       minWidth={"350px"}
       maxHeight="100vh"
+      // height={"500px"}
       spacing={2}
       padding={4}
       m={4}
-      overflow={"auto"}
+      // overflow={"auto"}
     >
       {filteredItems.map((item: PantryItem, index: number) => {
         return (
@@ -62,6 +65,7 @@ export default function PantryList({
             gap={2}
             bgcolor={"rgba(254, 250, 224, 1)"}
             p={1}
+            paddingLeft={4}
           >
             <Box
               width="100%"
@@ -69,7 +73,6 @@ export default function PantryList({
               display={"flex"}
               justifyContent="start"
               alignItems="center"
-              paddingLeft={4}
             >
               <Box>{item.name}</Box>
             </Box>
@@ -80,10 +83,16 @@ export default function PantryList({
                 justifyContent={"center"}
                 alignSelf={"center"}
                 alignItems={"center"}
-                p={2}
+                gap={1}
               >
-                <input type="text" size={3} value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)}/>
-                <Button
+                {/* <input
+                  type="text"
+                  size={6}
+                  value={editQuantity}
+                  onChange={(e) => setEditQuantity(e.target.value)}
+                /> */}
+                <TextField value={editQuantity}/>
+                <Box
                   onClick={async () => {
                     await editItem(item.name, editQuantity);
                     await reloadPantry();
@@ -91,44 +100,56 @@ export default function PantryList({
                   }}
                 >
                   Save
-                </Button>
+                </Box>
+                <Box
+                  onClick={async () => {
+                    setCurrEditIndex(null);
+                  }}
+                >
+                  Cancel
+                </Box>
               </Box>
             ) : (
               <Box
                 display={"flex"}
                 height={24}
-                justifyContent={"center"}
+                // width={"18px"}
+                justifyContent={"end"}
                 alignSelf={"center"}
                 alignItems={"center"}
-                p={2}
+                // p={2}
               >
-                {item.quantity}
+                <Box display={"flex"} justifyContent={"center"} width={"100px"}>
+                  {item.quantity}
+                </Box>
               </Box>
             )}
             {index !== currEditIndex && (
-              <Box
-                border={"solid 1px"}
-                display={"flex"}
-                justifyContent={"center"}
-                alignSelf={"center"}
-                borderRadius={2}
-                p={1}
-                onClick={() => {
-                  setEditQuantity(item.quantity);
-                  setCurrEditIndex(index);
-                }}
-              >
-                <Tooltip title="Edit">
-                  <EditIcon sx={{ ":hover": { cursor: "pointer" } }} />
-                </Tooltip>
+              <Box display={"flex"} gap={1}>
+                <Box
+                  border={"solid 1px"}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignSelf={"center"}
+                  borderRadius={2}
+                  p={1}
+                  onClick={() => {
+                    setEditQuantity(item.quantity);
+                    setCurrEditIndex(index);
+                  }}
+                >
+                  <Tooltip title="Edit">
+                    <EditIcon sx={{ ":hover": { cursor: "pointer" } }} />
+                  </Tooltip>
+                </Box>
+                <DeleteItemButton
+                  item={item}
+                  pantryItems={pantryItems}
+                  index={index}
+                  reloadPantry={reloadPantry}
+                />
               </Box>
             )}
-            <DeleteItemButton
-              item={item}
-              pantryItems={pantryItems}
-              index={index}
-              reloadPantry={reloadPantry}
-            />
           </Box>
         );
       })}

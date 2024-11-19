@@ -22,3 +22,18 @@ export interface PantryItemProps {
   index: number;
   reloadPantry:any;
 }
+
+export interface Recipe {
+  name: string;                       
+  time: number;
+  cuisine: string;
+  ingredients: string[];
+  instructions: string[];
+  createdAt: number;
+}
+
+export interface Folder {
+  name: string;
+  recipes: Recipe[];
+  createdAt: number;
+}

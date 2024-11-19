@@ -10,7 +10,6 @@ import {
   TextField,
 } from "@mui/material";
 import { PantryItem } from "../lib/types";
-import { green } from "@mui/material/colors";
 import EditItemButton from "./EditItemButton";
 import DeleteItemButton from "./DeleteItemButton";
 import EditIcon from "@mui/icons-material/Edit";
@@ -33,13 +32,15 @@ export default function PantryList({
   // });
   const filteredItems = pantryItems.sort((a, b) => {
     return a.createdAt - b.createdAt
+  }).filter(item => {
+    return item.name.toLowerCase().includes(searchQuery);
   });
 
   //Use the index of the item currently being editted
   const [currEditIndex, setCurrEditIndex] = useState<number | null>(null);
   const [editQuantity, setEditQuantity] = useState<string>("");
-  console.log('pantryItems', pantryItems)
-  console.log('filteredItems', filteredItems)
+  // console.log('pantryItems', pantryItems)
+  // console.log('filteredItems', filteredItems)
   return (
     <Stack
       sx={{

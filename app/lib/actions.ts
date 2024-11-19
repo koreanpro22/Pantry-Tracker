@@ -8,10 +8,17 @@ import {
   query,
   getDocs,
 } from "firebase/firestore";
-import { PantryItem, PantryField } from "./types";
+import { PantryItem, PantryField, Folder, Recipe } from "./types";
 
-async function getRef(name: string) {
+async function getPantryRef(name: string) {
   const docRef = doc(collection(firestore, "pantry"), name);
+  const snapShot = await getDoc(docRef);
+
+  return { ref: docRef, snapShot: snapShot };
+}
+
+async function getFolderRef(name: string) {
+  const docRef = doc(collection(firestore, "folder"), name);
   const snapShot = await getDoc(docRef);
 
   return { ref: docRef, snapShot: snapShot };
@@ -19,9 +26,9 @@ async function getRef(name: string) {
 
 //Add single item action
 export async function addItem(name: string, quantity: string) {
-  const { ref } = await getRef(name);
+  const { ref } = await getPantryRef(name);
   console.log("hitting add", ref);
-  const date = Date.now()
+  const date = Date.now();
   await setDoc(ref, { quantity, createdAt: date });
 }
 
@@ -52,18 +59,9 @@ export async function deleteAllItems() {
   }
 }
 
-export async function deleteList(names: any) {
-  console.log("hitting delete list");
-
-  names.forEach(async (name: string) => {
-    const { ref } = await getRef(name);
-    await deleteDoc(ref);
-  });
-}
-
 //Edit single item action
 export async function editItem(name: string, quantity: string) {
-  const { ref } = await getRef(name);
+  const { ref } = await getPantryRef(name);
 
   console.log("hitting edit", ref);
   await setDoc(ref, { quantity });
@@ -85,27 +83,46 @@ export async function getPantry() {
 }
 
 export async function getRecipeFolders() {
+  const snapshot = query(collection(firestore, "folder"));
+  const docs = await getDocs(snapshot);
 
-}
-export async function createRecipeFolder() {
+  const folders: Folder[] = [];
+  docs.forEach(async (doc) => {
+    const folderData = doc.data() as Folder;
 
-}
-export async function editRecipeFolder() {
+    const recipesRef = collection(firestore, "folder", doc.id, "recipes");
+    const recipesSnapshot = await getDocs(recipesRef);
 
+    const recipes: Recipe[] = [];
+    recipesSnapshot.forEach((recipeDoc: any) => {
+      recipes.push({
+        ...(recipeDoc.data() as Recipe),
+        name: recipeDoc.id
+      });
+    });
+
+    folders.push({
+      ...folderData,
+      name: doc.id,
+      recipes: recipes,
+    });
+  });
+
+  return folders;
 }
 
-export async function getRecipes() {
+export async function createFolder(name: string) {
+  const { ref } = await getFolderRef(name);
 
+  console.log("hitting create folder", ref);
+  const date = Date.now();
+  await setDoc(ref, { createdAt: date });
 }
-export async function createRecipe() {
-  
-}
-export async function editRecipe() {
 
-}
-export async function deleteRecipe() {
+export async function editRecipeFolder() {}
 
-}
-export async function deleteAllRecipes() {
-
-}
+export async function getRecipes() {}
+export async function createRecipe() {}
+export async function editRecipe() {}
+export async function deleteRecipe() {}
+export async function deleteAllRecipes() {}

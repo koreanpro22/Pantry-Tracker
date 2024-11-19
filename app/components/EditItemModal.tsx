@@ -53,7 +53,7 @@ export default function EditItemModal({ item, openEdit, handleCloseEdit, pantryI
             shrink: true,
           }}
         />
-        <Button onClick={async () => handleClick()}>Edit</Button>
+        <Button onClick={handleClick}>Edit</Button>
       </Box>
     </Modal>
   );

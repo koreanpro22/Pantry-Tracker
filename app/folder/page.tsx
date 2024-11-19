@@ -1,5 +1,3 @@
-
-
-export default function() {
-    return <>TESTING PAGE</>
+export default function FolderPage() {
+  return <>TESTING PAGE</>;
 }

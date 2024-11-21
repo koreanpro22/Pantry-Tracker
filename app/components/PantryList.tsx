@@ -44,7 +44,7 @@ export default function PantryList({
   return (
     <Stack
       sx={{
-        backgroundColor: "rgba(212, 163, 115, .2)",
+        backgroundColor: "rgba(212, 163, 115, .8)",
         overflow: "auto",
         scrollbarColor: "rgb(212, 163, 115) #FAEDCD",
       }}

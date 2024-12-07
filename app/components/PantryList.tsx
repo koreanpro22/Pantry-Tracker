@@ -1,46 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  Box,
-  Stack,
-  Tooltip,
-  Checkbox,
-  Button,
-  TextField,
-} from "@mui/material";
+import { useState } from "react";
+import { Box, Stack, Tooltip, TextField } from "@mui/material";
 import { PantryItem } from "../lib/types";
-import EditItemButton from "./EditItemButton";
-import DeleteItemButton from "./DeleteItemButton";
+import DeleteModalButton from "./DeleteModalButton";
 import EditIcon from "@mui/icons-material/Edit";
-import { editItem } from "../lib/actions";
+import { deleteItem, editItem } from "../lib/actions";
 
 type PantryListProps = {
   pantryItems: PantryItem[];
-  reloadPantry: any;
+  loadPantry: any;
   searchQuery: string;
 };
 
 export default function PantryList({
   pantryItems,
-  reloadPantry,
+  loadPantry,
   searchQuery,
 }: PantryListProps) {
-  // const [items, setItems] = useState(pantryItems);
-  // const filteredItems = pantryItems.filter((item) => {
-  //   return item.name.toLowerCase().includes(searchQuery.toLowerCase());
-  // });
-  const filteredItems = pantryItems.sort((a, b) => {
-    return a.createdAt - b.createdAt
-  }).filter(item => {
-    return item.name.toLowerCase().includes(searchQuery);
-  });
+  const filteredItems = pantryItems
+    .sort((a, b) => {
+      return a.createdAt - b.createdAt;
+    })
+    .filter((item) => {
+      return item.name.toLowerCase().includes(searchQuery);
+    });
 
   //Use the index of the item currently being editted
   const [currEditIndex, setCurrEditIndex] = useState<number | null>(null);
   const [editQuantity, setEditQuantity] = useState<string>("");
-  // console.log('pantryItems', pantryItems)
-  // console.log('filteredItems', filteredItems)
+
   return (
     <Stack
       sx={{
@@ -85,17 +74,11 @@ export default function PantryList({
                 alignItems={"center"}
                 gap={1}
               >
-                {/* <input
-                  type="text"
-                  size={6}
-                  value={editQuantity}
-                  onChange={(e) => setEditQuantity(e.target.value)}
-                /> */}
-                <TextField value={editQuantity}/>
+                <TextField value={editQuantity} />
                 <Box
                   onClick={async () => {
                     await editItem(item.name, editQuantity);
-                    await reloadPantry();
+                    await loadPantry();
                     setCurrEditIndex(null);
                   }}
                 >
@@ -142,11 +125,11 @@ export default function PantryList({
                     <EditIcon sx={{ ":hover": { cursor: "pointer" } }} />
                   </Tooltip>
                 </Box>
-                <DeleteItemButton
-                  item={item}
-                  pantryItems={pantryItems}
-                  index={index}
-                  reloadPantry={reloadPantry}
+                <DeleteModalButton
+                  event={async () => {
+                    await deleteItem(item.name);
+                    loadPantry();
+                  }}
                 />
               </Box>
             )}

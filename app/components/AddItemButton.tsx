@@ -6,7 +6,7 @@ import { useState, ChangeEvent } from "react";
 import { addItem } from "../lib/actions";
 import kirbyCoffee from "../../assets/kirby-coffee.jpg";
 
-export default function AddItemButton({reloadPantry} : any) {
+export default function AddItemButton({loadPantry} : any) {
   const [openAdd, setOpenAdd] = useState(false);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState<string>("1");
@@ -15,7 +15,7 @@ export default function AddItemButton({reloadPantry} : any) {
   const handleCloseAdd = () => {
     setOpenAdd(false);
     setName("");
-    reloadPantry();
+    loadPantry();
   };
 
   const handleAddNameChange = (e: ChangeEvent<HTMLInputElement>) => {

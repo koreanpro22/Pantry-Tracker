@@ -4,7 +4,7 @@ import { useState } from "react";
 import EditItemModal from "./EditItemModal";
 import { PantryItemProps } from "../lib/types";
 
-export default function EditItemButton({ item, pantryItems, index, reloadPantry }: PantryItemProps) {
+export default function EditItemButton({ item, pantryItems, index, loadPantry }: PantryItemProps) {
   const [openEdit, setOpenEdit] = useState(false);
 
   const handleOpenEdit = () => setOpenEdit(true);
@@ -18,7 +18,7 @@ export default function EditItemButton({ item, pantryItems, index, reloadPantry 
         handleCloseEdit={handleCloseEdit}
         pantryItems={pantryItems}
         index={index}
-        reloadPantry={reloadPantry}
+        loadPantry={loadPantry}
       />
       <Box
         border={"solid 1px"}

@@ -9,10 +9,10 @@ type EditItemModalProps = {
   handleCloseEdit: any;
   pantryItems: PantryItem[];
   index: number;
-  reloadPantry: any;
+  loadPantry: any;
 };
 
-export default function EditItemModal({ item, openEdit, handleCloseEdit, pantryItems, reloadPantry }: EditItemModalProps) {
+export default function EditItemModal({ item, openEdit, handleCloseEdit, pantryItems, loadPantry }: EditItemModalProps) {
   const [quantity, setQuantity] = useState<string>(item.quantity || "");
 
 
@@ -22,7 +22,7 @@ export default function EditItemModal({ item, openEdit, handleCloseEdit, pantryI
 
   const handleClick = async () => {
     await editItem(item.name, quantity);
-    reloadPantry();
+    loadPantry();
     handleCloseEdit();
   };
 

@@ -5,10 +5,16 @@ import PantryList from "./components/PantryList";
 import AddItemButton from "./components/AddItemButton";
 import kirbyImage from "../assets/kirby-background.jpg";
 import { PantryItem, Folder, Recipe } from "./lib/types";
-import { createFolder, getPantry, getRecipeFolders } from "./lib/actions";
+import {
+  createFolder,
+  deleteAllItems,
+  getPantry,
+  getRecipeFolders,
+} from "./lib/actions";
 import { useState, useEffect, ChangeEvent } from "react";
-import DeleteAllItemsButton from "./components/DeleteAllItemsButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteModalButton from "./components/DeleteModalButton";
+import { reload } from "firebase/auth";
 
 export default function Home() {
   const [pantry, setPantry] = useState<PantryItem[]>([]);
@@ -47,17 +53,17 @@ export default function Home() {
   const handlePantryClick = async () => {
     await setSearchQuery("");
     setActiveView("pantry");
-    setActiveFolder("")
+    setActiveFolder("");
   };
   const handleRecipesClick = async () => {
     await setSearchQuery("");
     setActiveView("recipes");
-    setActiveFolder("")
+    setActiveFolder("");
   };
 
   const handleAllFolders = async () => {
-    setActiveFolder("")
-  }
+    setActiveFolder("");
+  };
 
   const handleCreateRecipes = async () => {
     alert("hitting create recipes");
@@ -137,12 +143,18 @@ export default function Home() {
             />
             <PantryList
               pantryItems={pantry}
-              reloadPantry={loadPantry}
+              loadPantry={loadPantry}
               searchQuery={searchQuery}
             />
             <Box display={"flex"} width="100vw" justifyContent={"space-evenly"}>
-              <AddItemButton reloadPantry={loadPantry} />
-              <DeleteAllItemsButton reloadPantry={loadPantry} />
+              <AddItemButton loadPantry={loadPantry} />
+              <DeleteModalButton
+                event={async () => {
+                  await deleteAllItems();
+                  loadPantry();
+                }}
+                message="Delete All Items"
+              />
             </Box>
           </Box>
         )}
@@ -179,18 +191,52 @@ export default function Home() {
             {activeFolder ? (
               <Box display={"flex"}>
                 ACTIVE FOLDER
-                <Button variant="outlined" onClick={handleAllFolders}>Show All Folders</Button>
+                <Button variant="outlined" onClick={handleAllFolders}>
+                  Show All Folders
+                </Button>
               </Box>
             ) : (
               <Box>
-                <Stack gap={1}>
+                <Stack
+                  sx={{
+                    backgroundColor: "rgba(212, 163, 115, .8)",
+                    overflow: "auto",
+                    scrollbarColor: "rgb(212, 163, 115) #FAEDCD",
+                  }}
+                  width="80%"
+                  minWidth={"350px"}
+                  maxHeight="100vh"
+                  // height={"500px"}
+                  spacing={2}
+                  padding={4}
+                  m={4}
+                  // overflow={"auto"}
+                >
                   {filteredFolders.map((folder, i) => {
                     return (
-                      <Box key={i} display={"flex"}>
-                        <Box onClick={() => handleFolderClick(folder.name)}>
+                      <Box
+                        key={i}
+                        display={"flex"}
+                        gap={2}
+                        bgcolor={"rgba(254, 250, 224, 1)"}
+                        p={1}
+                        paddingLeft={4}
+                      >
+                        <Box
+                          sx={{ ":hover": { cursor: "pointer" } }}
+                          onClick={() => handleFolderClick(folder.name)}
+                        >
                           {folder.name}
                         </Box>
-                        <DeleteIcon sx={{ ":hover": { cursor: "pointer" } }} />
+                        <Box
+                          display={"flex"}
+                          height={24}
+                          justifyContent={"end"}
+                        >
+                          <DeleteIcon
+                            sx={{ ":hover": { cursor: "pointer" } }}
+                          />
+                        </Box>
                       </Box>
                     );
                   })}

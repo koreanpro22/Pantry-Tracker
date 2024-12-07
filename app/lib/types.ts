@@ -20,7 +20,7 @@ export interface PantryItemProps {
   };
   pantryItems: PantryItem[];
   index: number;
-  reloadPantry:any;
+  loadPantry:any;
 }
 
 export interface Recipe {

@@ -6,7 +6,7 @@ import { useState, ChangeEvent } from "react";
 import { addItem } from "../lib/actions";
 import kirbyCoffee from "../../assets/kirby-coffee.jpg";
 
-export default function AddItemButton({loadPantry} : any) {
+export default function AddItemButton({ loadPantry }: any) {
   const [openAdd, setOpenAdd] = useState(false);
   const [name, setName] = useState("");
   const [quantity, setQuantity] = useState<string>("1");
@@ -15,6 +15,7 @@ export default function AddItemButton({loadPantry} : any) {
   const handleCloseAdd = () => {
     setOpenAdd(false);
     setName("");
+    setQuantity("1");
     loadPantry();
   };
 
@@ -30,71 +31,70 @@ export default function AddItemButton({loadPantry} : any) {
     handleCloseAdd();
   };
 
-
   return (
     <Box>
       <Modal open={openAdd} onClose={handleCloseAdd}>
-      <Box
-        position="absolute"
-        top="50%"
-        left="50%"
-        width={250}
-        // bgcolor="white"
-        boxShadow={24}
-        p={4}
-        display="flex"
-        flexDirection="column"
-        gap={2}
-        sx={{
-          backgroundImage: `url(${kirbyCoffee.src})`,
-          backgroundSize: "contain",
-          opacity: 0.8,
-          transform: "translate(-50%,-50%)",
-        }}
-        // color={"black"}
-      >
-        <TextField
-          id="standard-basic"
-          label="New Pantry Item"
-          variant="standard"
-          value={name}
-          onChange={handleAddNameChange}
-        />
-        <TextField
-          id="outlined-number"
-          label="Quantity"
-          // type="number"
-          onChange={handleAddQuantityChange}
-          defaultValue={quantity}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-        <Button
-          variant="outlined"
+        <Box
+          position="absolute"
+          top="50%"
+          left="50%"
+          width={250}
+          bgcolor="rgba(254, 250, 224, 1)"
+          boxShadow={24}
+          p={4}
+          display="flex"
+          flexDirection="column"
+          gap={2}
           sx={{
-            width: "fit-content",
-            alignSelf: "center",
-            bgcolor: "rgba(254, 250, 224, 1)",
-            color: "black",
+            // backgroundImage: `url(${kirbyCoffee.src})`,
+            // backgroundSize: "contain",
+            // opacity: 0.8,
+            transform: "translate(-50%,-50%)",
           }}
-          onClick={() => handleAddItem()}
+          // color={"black"}
         >
-          Add
-        </Button>
-      </Box>
-    </Modal>
+          <TextField
+            id="standard-basic"
+            label="New Pantry Item"
+            variant="standard"
+            value={name}
+            onChange={handleAddNameChange}
+          />
+          <TextField
+            id="outlined-number"
+            label="Quantity"
+            // type="number"
+            onChange={handleAddQuantityChange}
+            defaultValue={quantity}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <Button
+            variant="outlined"
+            sx={{
+              width: "fit-content",
+              alignSelf: "center",
+              bgcolor: "rgba(254, 250, 224, 1)",
+              color: "black",
+            }}
+            onClick={() => handleAddItem()}
+          >
+            Add
+          </Button>
+        </Box>
+      </Modal>
       <Button
         sx={{
-            bgcolor: "rgba(254, 250, 224, 1)",
-            color: "black",
-            border: "1px solid black"
+          bgcolor: "rgba(254, 250, 224, 1)",
+          color: "black",
+          border: "1px solid black",
         }}
         variant="contained"
-        startIcon={<AddIcon />}
+        endIcon={<AddIcon />}
         onClick={() => handleOpenAdd()}
       >
-        Add
+        Add Item
       </Button>
     </Box>
   );

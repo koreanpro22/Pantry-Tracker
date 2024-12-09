@@ -96,129 +96,118 @@ export default function Home() {
   if (error) return <p>Error: {error.message}</p>;
 
   console.log("Folders: ", folders);
+
   return (
     <Box
       width="100vw"
       height="100vh"
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"start"}
-      alignItems={"center"}
+      display="flex"
+      flexDirection="column"
+      justifyContent="start"
+      alignItems="center"
       sx={{
         backgroundImage: `url(${kirbyImage.src})`,
-        backgroundPositionY: "1",
+        backgroundPositionY: "1px", // Fixed unit
         backgroundRepeat: "repeat",
         maxWidth: "100%",
       }}
     >
+      {/* Search Bar */}
+      <Box marginTop={10}>
+        <TextField
+          label="Search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          margin="normal"
+        />
+      </Box>
+
+      {/* Main Content */}
       <Box>
-        {activeView === "pantry" && (
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent={"start"}
-            alignItems={"center"}
-            maxWidth={"600px"}
-            height="100vh"
-            p={4}
-          >
-            <Box
-              width="100vw"
-              display={"flex"}
-              justifyContent={"space-evenly"}
-              paddingTop={2}
-            >
-              <Box fontSize={"30px"}>Pantry</Box>
-
-              <Box fontSize={"30px"} onClick={handleRecipesClick}>
-                Recipes
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="start"
+          alignItems="center"
+          maxWidth="600px"
+          height="100vh"
+          p={2}
+        >
+          {/* Pantry View */}
+          {activeView === "pantry" && (
+            <>
+              {/* Pantry Header */}
+              <Box width="100vw" display="flex" justifyContent="space-evenly">
+                <Box fontSize="30px">Pantry</Box>
+                <Box fontSize="30px" onClick={handleRecipesClick}>
+                  Recipes
+                </Box>
               </Box>
-            </Box>
-            <TextField
-              label="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              // fullWidth
-              margin="normal"
-            />
-            <PantryList
-              pantryItems={pantry}
-              loadPantry={loadPantry}
-              searchQuery={searchQuery}
-            />
-            <Box display={"flex"} width="100vw" justifyContent={"space-evenly"}>
-              <AddItemButton loadPantry={loadPantry} />
-              <DeleteModalButton
-                event={async () => {
-                  await deleteAllItems();
-                  loadPantry();
-                }}
-                message="Delete All Items"
+
+              {/* Pantry List */}
+              <PantryList
+                pantryItems={pantry}
+                loadPantry={loadPantry}
+                searchQuery={searchQuery}
               />
-            </Box>
-          </Box>
-        )}
-        {activeView === "recipes" && (
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            justifyContent={"start"}
-            alignItems={"center"}
-            maxWidth={"600px"}
-            height="100vh"
-            p={4}
-          >
-            <Box
-              width="100vw"
-              display={"flex"}
-              justifyContent={"space-evenly"}
-              paddingTop={2}
-            >
-              <Box fontSize={"30px"} onClick={handlePantryClick}>
-                Pantry
-              </Box>
 
-              <Box fontSize={"30px"}>Recipes</Box>
-            </Box>
-            <TextField
-              label="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              // fullWidth
-
-              margin="normal"
-            />
-            {activeFolder ? (
-              <Box display={"flex"}>
-                ACTIVE FOLDER
-                <Button variant="outlined" onClick={handleAllFolders}>
-                  Show All Folders
-                </Button>
-              </Box>
-            ) : (
-              <Box>
-                <Stack
-                  sx={{
-                    backgroundColor: "rgba(212, 163, 115, .8)",
-                    overflow: "auto",
-                    scrollbarColor: "rgb(212, 163, 115) #FAEDCD",
+              {/* Pantry Actions */}
+              <Box display="flex" width="100vw" justifyContent="space-evenly">
+                <AddItemButton loadPantry={loadPantry} />
+                <DeleteModalButton
+                  event={async () => {
+                    await deleteAllItems();
+                    loadPantry();
                   }}
-                  width="80%"
-                  minWidth={"350px"}
-                  maxHeight="100vh"
-                  // height={"500px"}
-                  spacing={2}
-                  padding={4}
-                  m={4}
-                  // overflow={"auto"}
-                >
-                  {filteredFolders.map((folder, i) => {
-                    return (
+                  message="Delete All Items"
+                />
+              </Box>
+            </>
+          )}
+
+          {/* Recipes View */}
+          {activeView === "recipes" && (
+            <>
+              {/* Recipes Header */}
+              <Box width="100vw" display="flex" justifyContent="space-evenly">
+                <Box fontSize="30px" onClick={handlePantryClick}>
+                  Pantry
+                </Box>
+                <Box fontSize="30px">Recipes</Box>
+              </Box>
+
+              {/* Active Folder or Folders List */}
+              {activeFolder ? (
+                <Box display="flex">
+                  <Box>ACTIVE FOLDER</Box>
+                  <Button variant="outlined" onClick={handleAllFolders}>
+                    Show All Folders
+                  </Button>
+                  {/* Add Recipe Button */}
+                  {/* <Button onClick={handleCreateRecipes}>Create new recipes</Button> */}
+                </Box>
+              ) : (
+                <Box>
+                  {/* Folders List */}
+                  <Stack
+                    sx={{
+                      backgroundColor: "rgba(212, 163, 115, .8)",
+                      overflow: "auto",
+                      scrollbarColor: "rgb(212, 163, 115) #FAEDCD",
+                    }}
+                    width="80%"
+                    minWidth="350px"
+                    maxHeight="100vh"
+                    spacing={2}
+                    padding={4}
+                    m={4}
+                  >
+                    {filteredFolders.map((folder, i) => (
                       <Box
                         key={i}
-                        display={"flex"}
+                        display="flex"
                         gap={2}
-                        bgcolor={"rgba(254, 250, 224, 1)"}
+                        bgcolor="rgba(254, 250, 224, 1)"
                         p={1}
                         paddingLeft={4}
                       >
@@ -228,39 +217,32 @@ export default function Home() {
                         >
                           {folder.name}
                         </Box>
-                        <Box
-                          display={"flex"}
-                          height={24}
-                          justifyContent={"end"}
-                        >
+                        <Box display="flex" height={24} justifyContent="end">
                           <DeleteIcon
                             sx={{ ":hover": { cursor: "pointer" } }}
                           />
                         </Box>
                       </Box>
-                    );
-                  })}
-                </Stack>
-                <TextField
-                  id="oultined-basic"
-                  label="New Folder Name"
-                  variant="outlined"
-                  value={folderName}
-                  margin="normal"
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setFolderName(e.target.value)
-                  }
-                />
-                <Button variant="contained" onClick={handleCreateFolder}>
-                  Create new folder
-                </Button>
-              </Box>
-            )}
+                    ))}
+                  </Stack>
 
-            {/* Add Recipe Button */}
-            {/* <Button onClick={handleCreateRecipes}>Create new recipes</Button> */}
-          </Box>
-        )}
+                  {/* New Folder Input */}
+                  <TextField
+                    id="outlined-basic"
+                    label="New Folder Name"
+                    variant="outlined"
+                    value={folderName}
+                    margin="normal"
+                    onChange={(e) => setFolderName(e.target.value)}
+                  />
+                  <Button variant="contained" onClick={handleCreateFolder}>
+                    Create new folder
+                  </Button>
+                </Box>
+              )}
+            </>
+          )}
+        </Box>
       </Box>
     </Box>
   );

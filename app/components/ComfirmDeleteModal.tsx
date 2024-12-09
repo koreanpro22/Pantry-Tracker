@@ -3,7 +3,7 @@ import { Box, Button, Modal } from "@mui/material";
 type ConfirmDeleteModalProps = {
   openModal: boolean;
   closeModal: any;
-  handleEvent:any;
+  handleEvent: any;
 };
 
 export default function ConfirmDeleteModal({
@@ -11,11 +11,10 @@ export default function ConfirmDeleteModal({
   closeModal,
   handleEvent,
 }: ConfirmDeleteModalProps) {
-
   const handleClick = async () => {
-    await handleEvent()
-    closeModal()
-  }
+    await handleEvent();
+    closeModal();
+  };
 
   return (
     <Modal open={openModal} onClose={closeModal}>
@@ -23,20 +22,23 @@ export default function ConfirmDeleteModal({
         position="absolute"
         top="50%"
         left="50%"
-        width={400}
-        bgcolor="white"
+        bgcolor="rgba(254, 250, 224, 1)"
         boxShadow={24}
-        p={4}
+        p={3}
         display="flex"
+        borderRadius={1}
         gap={3}
         sx={{
           transform: "translate(-50%,-50%)",
         }}
       >
-        <Button onClick={() => handleClick()}>Confirm Delete</Button>
-        <Button onClick={() => closeModal()}>Cancel</Button>
+        <Button variant="contained" color="error" onClick={() => handleClick()}>
+          Confirm Delete
+        </Button>
+        <Button variant="contained" onClick={() => closeModal()}>
+          Cancel
+        </Button>
       </Box>
     </Modal>
-
   );
 }

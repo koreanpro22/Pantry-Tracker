@@ -43,10 +43,14 @@ export default function PantryList({
       // height={"500px"}
       spacing={2}
       padding={4}
+      borderRadius={1}
       m={4}
       // overflow={"auto"}
     >
-      {filteredItems.map((item: PantryItem, index: number) => {
+      {!filteredItems.length && !searchQuery.length? 
+      <Box display={"flex"} alignSelf={"center"}>Currently No Items in Pantry</Box>
+      :
+      filteredItems.map((item: PantryItem, index: number) => {
         return (
           <Box
             key={index}
